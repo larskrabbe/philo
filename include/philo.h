@@ -6,7 +6,7 @@
 /*   By: lkrabbe <lkrabbe@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/24 22:39:36 by lkrabbe           #+#    #+#             */
-/*   Updated: 2022/10/25 07:07:44 by lkrabbe          ###   ########.fr       */
+/*   Updated: 2022/10/25 20:15:43 by lkrabbe          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,11 @@ typedef enum e_state{
 	dead = 4,
 }t_state;
 
+typedef enum e_forkstate{
+	on_table = 0,
+	in_hand = 1,
+}t_forkstate;
+
 //?------------------THE_STRUCTS---------------?//
 /**
  * @brief contain all the input from the arguments 
@@ -48,14 +53,14 @@ typedef enum e_state{
  */
 typedef struct s_input
 {
-	unsigned int	name;
 	unsigned int	philosophers;
 	unsigned int	time_to_die;
 	unsigned int	time_to_eat;
 	unsigned int	time_to_sleep;
 	unsigned int	amount_to_eat;
 	int				*forks;
-	pthread_mutex_t	*mutex;
+	pthread_mutex_t	*fork_mutex;
+	pthread_mutex_t	mutex;
 	struct timeval	start_time;
 }t_input;
 
@@ -64,8 +69,9 @@ typedef struct s_input
  * 
  */
 typedef struct s_philosophor{
-	t_input			input;
+	t_input			*input;
 	unsigned int	name;
+	unsigned int	right_fork;
 	unsigned int	state;
 	long			energy;
 }t_philosophor;
@@ -78,8 +84,10 @@ typedef struct s_philosophor{
  * 
  * @param philosopher current philosopher
  * @param str string that contains the new state 
+ *
+ * @return nothing
  */
-void	statemessage(int pilosopher, char *str, struct timeval *start_time);
+void	statemessage(int pilosopher, char *str, struct timeval *start_time, t_philosophor *brain);
 
 /**
  * @brief import the arg form the main in to the input struct
