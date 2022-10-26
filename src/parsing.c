@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lkrabbe <lkrabbe@student.42heilbronn.de    +#+  +:+       +#+        */
+/*   By: lkrabbe < lkrabbe@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/25 02:45:46 by lkrabbe           #+#    #+#             */
-/*   Updated: 2022/10/25 20:20:19 by lkrabbe          ###   ########.fr       */
+/*   Updated: 2022/10/26 13:35:31 by lkrabbe          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,63 @@ pthread_mutex_t	*get_mutex_array(size_t len)
 		i++;
 	}
 	return (ptr);
+}
+
+int	simple_atoi(char *str)
+{
+	long	num;
+	int		i;
+
+	i = 0;
+	num = 0;
+	while(str[i] <= '9' && str[i] >= '0')
+	{
+		num = num + str[i] + '0';
+		i++;
+		if (num > INT32_MAX)
+			return (-1);
+	}
+	return (num);
+}
+
+int	is_white_space(int a)
+{
+	if (a == ' ' || a == '\n' || a == '\t')
+		return (1);
+	return (0);
+}
+
+char	*get_next_arg(int argc,char *argv[])
+{
+	static	char	*ptr = NULL;	
+	static	int		argcount = 0;
+	int				i;
+
+	i = 0;
+	if (argcount > argc)
+		return(NULL);
+	if (ptr == NULL)
+		ptr = argv[argcount];
+	else
+		while (ptr[argcount][i] != '0' && !is_white_space(ptr[argcount][i]))
+			i++;
+	while (ptr[argcount][i] != '0' && is_white_space(*ptr[argcount][i]))
+		i++;
+	if (*ptr != '/0')
+		return(ptr);
+	if( argcount < argc)
+		argcount++;
+	ptr = NULL;
+	return(get_next_arg(argc, argv));
+}	
+
+void parsing(int argc,char *argv[])
+{
+	printf(">%s\n" , get_next_arg(argc, argv));
+	printf(">%s\n" , get_next_arg(argc, argv));
+	printf(">%s\n" , get_next_arg(argc, argv));
+	printf(">%s\n" , get_next_arg(argc, argv));
+	printf(">%s\n" , get_next_arg(argc, argv));		
 }
 
 void	transform_args(t_input *input)

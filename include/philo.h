@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lkrabbe <lkrabbe@student.42heilbronn.de    +#+  +:+       +#+        */
+/*   By: lkrabbe < lkrabbe@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/24 22:39:36 by lkrabbe           #+#    #+#             */
-/*   Updated: 2022/10/25 20:15:43 by lkrabbe          ###   ########.fr       */
+/*   Updated: 2022/10/26 13:30:52 by lkrabbe          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,5 +112,6 @@ void	create_philo(t_input *input, unsigned int count);
 long	get_time_stamp(struct timeval *start_time);
 
 void	thinking_cycle(t_philosophor *brain);
+void parsing(int argc,char *argv[]);
 
 #endif
