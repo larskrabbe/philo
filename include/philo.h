@@ -3,10 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lkrabbe <lkrabbe@student.42heilbronn.de    +#+  +:+       +#+        */
+/*   By: lkrabbe < lkrabbe@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/24 22:39:36 by lkrabbe           #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2022/10/27 05:35:27 by lkrabbe          ###   ########.fr       */
+=======
+/*   Updated: 2022/10/26 13:30:52 by lkrabbe          ###   ########.fr       */
+>>>>>>> 38b02daa9c1d717c692eadf28a82a2d785898789
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,6 +117,7 @@ void	create_philo(t_input *input, int count);
 long	get_time_stamp(struct timeval *start_time);
 
 void	thinking_cycle(t_philosophor *brain);
+<<<<<<< HEAD
 /**
  * @brief gives you a pointer to the next arg separated by whitespace or \0
  * 
@@ -128,5 +133,8 @@ char	*get_next_arg(int argc, char *argv[]);
  * 
  */
 int		is_white_space(int a);
+=======
+void parsing(int argc,char *argv[]);
+>>>>>>> 38b02daa9c1d717c692eadf28a82a2d785898789
 
 #endif
