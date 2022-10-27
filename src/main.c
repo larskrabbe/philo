@@ -6,7 +6,7 @@
 /*   By: lkrabbe <lkrabbe@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/24 22:39:00 by lkrabbe           #+#    #+#             */
-/*   Updated: 2022/10/27 05:37:25 by lkrabbe          ###   ########.fr       */
+/*   Updated: 2022/10/27 07:11:11 by lkrabbe          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,13 +49,19 @@ int	check_input(t_input *input)
 int	main(int argc, char *argv[])
 {
 	t_input	input;
+	int		death;
 
+	death = FALSE;
+	input.deat_occurred = &death;
 	printf("\033[0;32m philo start for real\033[0m\n");
 	transform_args(&input, argc, argv);
 	if (check_input(&input) < 0)
 		printf("invalid input\n");
 	else
+	{
+		pthread_mutex_lock(&input.mutex_arr[start_check]);
 		create_philo(&input, 1);
+	}
 	printf("\033[0;32mphilo end\033[0m\n");
 	return (0);
 }

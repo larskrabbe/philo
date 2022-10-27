@@ -6,7 +6,7 @@
 /*   By: lkrabbe <lkrabbe@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/25 02:45:46 by lkrabbe           #+#    #+#             */
-/*   Updated: 2022/10/27 05:36:13 by lkrabbe          ###   ########.fr       */
+/*   Updated: 2022/10/27 06:38:52 by lkrabbe          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,6 @@ void	transform_args(t_input *input, int argc, char *argv[])
 		memset(input->forks, 0, input->philosophers);
 		gettimeofday(&input->start_time, NULL);
 		input->fork_mutex = get_mutex_array(input->philosophers);
-		pthread_mutex_init(&input->mutex, NULL);
+		input->mutex_arr = get_mutex_array(last_lock);
 	}
 }

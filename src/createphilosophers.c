@@ -6,7 +6,7 @@
 /*   By: lkrabbe <lkrabbe@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/25 02:58:05 by lkrabbe           #+#    #+#             */
-/*   Updated: 2022/10/27 05:35:16 by lkrabbe          ###   ########.fr       */
+/*   Updated: 2022/10/27 07:22:07 by lkrabbe          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,11 +22,11 @@ void	*lifecycle(void *param)
 void	create_philo(t_input *input, int count)
 {
 	pthread_t		pthread;
-	t_philosophor	*brain;
+	t_phil			*brain;
 
 	if (count <= input->philosophers)
 	{
-		brain = malloc(sizeof(t_philosophor));
+		brain = malloc(sizeof(t_phil));
 		if (brain == NULL)
 			return ;// error
 		brain->input = input;

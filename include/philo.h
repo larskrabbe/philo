@@ -6,7 +6,7 @@
 /*   By: lkrabbe <lkrabbe@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/24 22:39:36 by lkrabbe           #+#    #+#             */
-/*   Updated: 2022/10/27 05:35:27 by lkrabbe          ###   ########.fr       */
+/*   Updated: 2022/10/27 07:30:41 by lkrabbe          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,8 @@
 # define SLEEPING "is sleeping"
 # define THINKING "is thinking"
 # define DEAD "died"
-# define MAX_PHILOS 200
+# define FALSE 0
+# define TRUE 1
 
 //?-------------------THE_ENUMS----------------?//
 
@@ -39,6 +40,20 @@ typedef enum e_state{
 	eating = 3,
 	dead = 4,
 }t_state;
+
+/**
+ * @brief The diffrent mutexlocks that arent for forks
+ * 
+ *! @note last_lock needs to be at the lost position its like a counter for the locks 
+ *! its needed to malloc the correct size for the array of mutexes
+ */
+typedef enum e_mutex_locks{
+	start_check = 0,
+	death_check,
+	print_check,
+	last_lock,
+}t_mutex_locks;
+
 
 typedef enum e_forkstate{
 	on_table = 0,
@@ -60,21 +75,22 @@ typedef struct s_input
 	int				amount_to_eat;
 	int				*forks;
 	pthread_mutex_t	*fork_mutex;
-	pthread_mutex_t	mutex;
+	pthread_mutex_t	*mutex_arr;
 	struct timeval	start_time;
+	int				*deat_occurred;
 }t_input;
 
 /**
  * @brief structur for each thread to  get the start information
  * 
  */
-typedef struct s_philosophor{
+typedef struct s_phil{
 	t_input			*input;
 	int				name;
 	int				right_fork;
 	int				state;
 	long			energy;
-}t_philosophor;
+}t_phil;
 
 
 //?-----------------THE_PROTOTYPS--------------?//
@@ -82,14 +98,12 @@ typedef struct s_philosophor{
 /**
  * @brief prints messasg about new state of a philosopher with timestamp 
  * 
- * @param philosopher current philosopher
+ * @param brain current philosopher
  * @param str string that contains the new state 
  *
  * @return nothing
  */
-void	statemessage(int pilosopher, char *str, \
-struct timeval *start_time, t_philosophor *brain);
-
+void	statemessage(char *str, struct timeval *start_time, t_phil *brain);
 /**
  * @brief import the arg form the main in to the input struct
  *  or returns error if something is not  allowed
@@ -112,7 +126,7 @@ void	create_philo(t_input *input, int count);
  */
 long	get_time_stamp(struct timeval *start_time);
 
-void	thinking_cycle(t_philosophor *brain);
+void	thinking_cycle(t_phil *brain);
 /**
  * @brief gives you a pointer to the next arg separated by whitespace or \0
  * 
