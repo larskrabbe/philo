@@ -6,7 +6,7 @@
 /*   By: lkrabbe <lkrabbe@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/24 23:29:03 by lkrabbe           #+#    #+#             */
-/*   Updated: 2022/10/25 19:21:25 by lkrabbe          ###   ########.fr       */
+/*   Updated: 2022/10/27 05:40:07 by lkrabbe          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,9 +42,10 @@ long	get_time_stamp(struct timeval *start_time)
  * @param philosopher the philosopher who change state
  * @param str the new state
  */
-void	statemessage(int philosopher, char *str, struct timeval *start_time, t_philosophor *brain)
+void	statemessage(int philosopher, char *str, \
+struct timeval *start_time, t_philosophor *brain)
 {
 	pthread_mutex_lock(&brain->input->mutex);
-	printf("%li %i %s\n", get_time_stamp(start_time) , philosopher, str);
+	printf("%li %i %s\n", get_time_stamp(start_time), philosopher, str);
 	pthread_mutex_unlock(&brain->input->mutex);
 }

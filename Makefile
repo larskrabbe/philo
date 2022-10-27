@@ -6,7 +6,7 @@
 #    By: lkrabbe <lkrabbe@student.42heilbronn.de    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/10/24 00:02:46 by lkrabbe           #+#    #+#              #
-#    Updated: 2022/10/25 20:19:47 by lkrabbe          ###   ########.fr        #
+#    Updated: 2022/10/27 03:54:06 by lkrabbe          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,7 +27,8 @@ SRC = main.c \
 		statechange.c \
 		parsing.c\
 		createphilosophers.c\
-		statecycle.c
+		statecycle.c\
+		get_next_arg.c\
 
 OBJ = $(SRC:.c=.o) $(DIR_LIBFT_PLUS:.c=.o) 
 
@@ -58,9 +59,11 @@ fclean : clean
 		@echo	"\033[0;0m"
 
 ARGS = "1 2 2"
-test:all
-		./$(NAME) $(ARG)
-		
+test:
+		cc src/get_next_arg.c -o get_next_arg.out 
+		@echo 
+		./get_next_arg.out hallo "  " world "  this is a test"
+		@echo
 re : fclean all
 
 .phony: all re clean fclean 

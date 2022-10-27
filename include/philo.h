@@ -6,7 +6,7 @@
 /*   By: lkrabbe <lkrabbe@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/24 22:39:36 by lkrabbe           #+#    #+#             */
-/*   Updated: 2022/10/25 20:15:43 by lkrabbe          ###   ########.fr       */
+/*   Updated: 2022/10/27 05:35:27 by lkrabbe          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,11 +53,11 @@ typedef enum e_forkstate{
  */
 typedef struct s_input
 {
-	unsigned int	philosophers;
-	unsigned int	time_to_die;
-	unsigned int	time_to_eat;
-	unsigned int	time_to_sleep;
-	unsigned int	amount_to_eat;
+	int				philosophers;
+	int				time_to_die;
+	int				time_to_eat;
+	int				time_to_sleep;
+	int				amount_to_eat;
 	int				*forks;
 	pthread_mutex_t	*fork_mutex;
 	pthread_mutex_t	mutex;
@@ -70,9 +70,9 @@ typedef struct s_input
  */
 typedef struct s_philosophor{
 	t_input			*input;
-	unsigned int	name;
-	unsigned int	right_fork;
-	unsigned int	state;
+	int				name;
+	int				right_fork;
+	int				state;
 	long			energy;
 }t_philosophor;
 
@@ -87,7 +87,8 @@ typedef struct s_philosophor{
  *
  * @return nothing
  */
-void	statemessage(int pilosopher, char *str, struct timeval *start_time, t_philosophor *brain);
+void	statemessage(int pilosopher, char *str, \
+struct timeval *start_time, t_philosophor *brain);
 
 /**
  * @brief import the arg form the main in to the input struct
@@ -95,13 +96,13 @@ void	statemessage(int pilosopher, char *str, struct timeval *start_time, t_philo
  * @todo everthing this is jst basic to test stuff
  * 
  */
-void	transform_args(t_input *input);
+void	transform_args(t_input *input, int argc, char *argv[]);
 
 /**
  * @brief create the threads the the data from input
  * 
  */
-void	create_philo(t_input *input, unsigned int count);
+void	create_philo(t_input *input, int count);
 
 /**
  * @brief returns the current timestamp 
@@ -112,5 +113,20 @@ void	create_philo(t_input *input, unsigned int count);
 long	get_time_stamp(struct timeval *start_time);
 
 void	thinking_cycle(t_philosophor *brain);
+/**
+ * @brief gives you a pointer to the next arg separated by whitespace or \0
+ * 
+ * @param argv the pointer to the start of the arguments
+ * @param argc the amount of args
+ * 
+ * @return returns a pointer to the start of the argument
+ */
+char	*get_next_arg(int argc, char *argv[]);
+
+/**
+ * @brief returns 1 or 0 depending if char is a whitespace char
+ * 
+ */
+int		is_white_space(int a);
 
 #endif
