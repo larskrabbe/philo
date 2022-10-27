@@ -6,7 +6,7 @@
 /*   By: lkrabbe <lkrabbe@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/24 22:39:00 by lkrabbe           #+#    #+#             */
-/*   Updated: 2022/10/27 07:11:11 by lkrabbe          ###   ########.fr       */
+/*   Updated: 2022/10/27 18:05:16 by lkrabbe          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	print_strct(t_input *input)
 
 int	check_input(t_input *input)
 {
-	if (input->philosophers > 200 || input->philosophers < 1)
+	if (input->philosophers > 2000 || input->philosophers < 1)
 		return (-1);
 	if (input->time_to_die > 1000 || input->time_to_die < 1)
 		return (-1);
@@ -58,10 +58,7 @@ int	main(int argc, char *argv[])
 	if (check_input(&input) < 0)
 		printf("invalid input\n");
 	else
-	{
-		pthread_mutex_lock(&input.mutex_arr[start_check]);
 		create_philo(&input, 1);
-	}
 	printf("\033[0;32mphilo end\033[0m\n");
 	return (0);
 }

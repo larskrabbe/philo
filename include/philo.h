@@ -6,7 +6,7 @@
 /*   By: lkrabbe <lkrabbe@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/24 22:39:36 by lkrabbe           #+#    #+#             */
-/*   Updated: 2022/10/27 07:30:41 by lkrabbe          ###   ########.fr       */
+/*   Updated: 2022/10/27 18:22:21 by lkrabbe          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,14 +24,21 @@
 
 //?------------------THE_DEFINES---------------?//
 
-# define TOOK_FORK "has taken a fork"
+# define TOOK_L_FORK "has taken a the left fork"
+# define TOOK_R_FORK "has taken a the right fork"
 # define EATING  "is eating"
 # define SLEEPING "is sleeping"
 # define THINKING "is thinking"
 # define DEAD "died"
-# define FALSE 0
-# define TRUE 1
-
+# ifndef FALSE
+#  define FALSE 0
+# endif
+# ifndef TRUE
+#  define TRUE 1
+# endif
+# ifndef INT32_MAX
+#  define INT32_MAX 2147483647
+# endif
 //?-------------------THE_ENUMS----------------?//
 
 typedef enum e_state{
@@ -44,7 +51,8 @@ typedef enum e_state{
 /**
  * @brief The diffrent mutexlocks that arent for forks
  * 
- *! @note last_lock needs to be at the lost position its like a counter for the locks 
+ *! @note last_lock needs to be at the lost position \
+ *! its like a counter for the locks 
  *! its needed to malloc the correct size for the array of mutexes
  */
 typedef enum e_mutex_locks{
@@ -53,7 +61,6 @@ typedef enum e_mutex_locks{
 	print_check,
 	last_lock,
 }t_mutex_locks;
-
 
 typedef enum e_forkstate{
 	on_table = 0,
@@ -85,11 +92,13 @@ typedef struct s_input
  * 
  */
 typedef struct s_phil{
-	t_input			*input;
-	int				name;
-	int				right_fork;
-	int				state;
-	long			energy;
+	t_input	*input;
+	int		name;
+	int		right_fork;
+	int		state;
+	long	energy;
+	// long	last_meal
+	int		death_flag;
 }t_phil;
 
 

@@ -6,7 +6,7 @@
 #    By: lkrabbe <lkrabbe@student.42heilbronn.de    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/10/24 00:02:46 by lkrabbe           #+#    #+#              #
-#    Updated: 2022/10/27 03:54:06 by lkrabbe          ###   ########.fr        #
+#    Updated: 2022/10/27 17:55:15 by lkrabbe          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,12 +16,11 @@ NAME = philo
 
 CC = cc -pthread
 
-CFLAGS =  -Wextra -Wall  # -g -fsanitize=thread #-fsanitize=addres -Werror
+CFLAGS =  -Wextra -Wall  #-g -fsanitize=thread #-fsanitize=addres -Werror
 
 DIR_SRC = src
 
 DIR_OBJ = obj
-
 
 SRC = main.c \
 		statechange.c \
@@ -34,7 +33,7 @@ OBJ = $(SRC:.c=.o) $(DIR_LIBFT_PLUS:.c=.o)
 
 all :  $(OBJ)
 	@echo	"\033[0;32m compiling $(NAME)\n\033[0m"
-	$(CC) -g  $(OBJ) -o $(NAME)
+	$(CC) -g $(OBJ) -o $(NAME)
 	@echo	"\033[0;32m compiling finished\n\033[0m"
 
 run:all

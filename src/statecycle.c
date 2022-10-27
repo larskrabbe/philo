@@ -6,7 +6,7 @@
 /*   By: lkrabbe <lkrabbe@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/25 01:51:06 by lkrabbe           #+#    #+#             */
-/*   Updated: 2022/10/27 08:34:10 by lkrabbe          ###   ########.fr       */
+/*   Updated: 2022/10/27 18:22:12 by lkrabbe          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,9 +54,9 @@ int	check_fork(t_phil *brain)
 		{
 			i = in_hand;
 			brain->input->forks[brain->name] = in_hand;
-			statemessage(TOOK_FORK, &brain->input->start_time, brain);
+			statemessage(TOOK_L_FORK, &brain->input->start_time, brain);
 			brain->input->forks[brain->right_fork] = in_hand;
-			statemessage(TOOK_FORK, &brain->input->start_time, brain);
+			statemessage(TOOK_R_FORK, &brain->input->start_time, brain);
 		}
 		pthread_mutex_unlock(&brain->input->fork_mutex[brain->right_fork]);
 	}
@@ -66,19 +66,20 @@ int	check_fork(t_phil *brain)
 
 void	thinking_cycle(t_phil *brain)
 {
-	int	i;
-
-	i = 0;
-	statemessage(THINKING, &brain->input->start_time, brain);
-	while (brain->energy > 1)
+	if (brain->death_flag == TRUE)
+		return ;
+	else if (check_fork(brain) == 1)
+		eating_cycle(brain);
+	else
+		statemessage(THINKING, &brain->input->start_time, brain);
+	while (brain->energy > 1 && brain->death_flag == FALSE)
 	{
 		if (check_fork(brain) == 1)
 			eating_cycle(brain);
-		i++;
-		if (i >= 100)
+		else
 		{
+			usleep(999);
 			brain->energy--;
-			i = 0;
 		}
 	}
 	pthread_mutex_lock(&brain->input->mutex_arr[print_check]);
@@ -87,7 +88,6 @@ void	thinking_cycle(t_phil *brain)
 	{
 		*brain->input->deat_occurred = TRUE;
 		printf("%li %i %s\n", get_time_stamp(&brain->input->start_time), brain->name, DEAD);
-		exit(0);
 	}
 	pthread_mutex_unlock(&brain->input->mutex_arr[death_check]);
 	pthread_mutex_unlock(&brain->input->mutex_arr[print_check]);
