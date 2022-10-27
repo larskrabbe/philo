@@ -6,7 +6,7 @@
 /*   By: lkrabbe <lkrabbe@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/25 01:51:06 by lkrabbe           #+#    #+#             */
-/*   Updated: 2022/10/27 18:22:12 by lkrabbe          ###   ########.fr       */
+/*   Updated: 2022/10/27 18:34:58 by lkrabbe          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,8 @@
 
 void	milisleep(unsigned int time)
 {
-	usleep(time * 1000);
+	time_t start_time
+	usleep(10);
 }
 
 void	sleeping_cycle(t_phil *brain)
@@ -78,7 +79,7 @@ void	thinking_cycle(t_phil *brain)
 			eating_cycle(brain);
 		else
 		{
-			usleep(999);
+			milisleep(1);
 			brain->energy--;
 		}
 	}
