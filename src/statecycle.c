@@ -3,19 +3,43 @@
 /*                                                        :::      ::::::::   */
 /*   statecycle.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lkrabbe <lkrabbe@student.42heilbronn.de    +#+  +:+       +#+        */
+/*   By: lkrabbe < lkrabbe@student.42heilbronn.d    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/25 01:51:06 by lkrabbe           #+#    #+#             */
-/*   Updated: 2022/10/27 18:34:58 by lkrabbe          ###   ########.fr       */
+/*   Updated: 2022/10/28 17:05:07 by lkrabbe          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include	"../include/philo.h"
 
+long long timeval_to_ll(struct timeval *start, struct timeval *end)
+{
+	long long	time;
+
+	time = 0;
+	time += (start->tv_sec - end->tv_sec * 1000000);
+		if (start->tv_usec - end->tv_usec < 0)
+			{
+				time -= 1000000;
+			}
+	time += (start->tv_usec - end->tv_usec);		
+	return (time);
+}
+
 void	milisleep(unsigned int time)
 {
-	time_t start_time
-	usleep(10);
+	long long 		dif_time;
+	struct timeval	start_time;
+	struct timeval	current_time;
+	
+	gettimeofday(&current_time, NULL);
+	gettimeofday(&start_time, NULL);
+	dif_time = timeval_to_ll(&start_time, &current_time);
+	while (time - dif_time > 100)
+	{
+		usleep(dif_time * 0.8);
+		dif_time = timeval_to_ll(&start_time, &current_time);
+	}
 }
 
 void	sleeping_cycle(t_phil *brain)
