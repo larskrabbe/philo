@@ -6,7 +6,7 @@
 /*   By: lkrabbe <lkrabbe@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/24 22:39:00 by lkrabbe           #+#    #+#             */
-/*   Updated: 2022/10/27 18:05:16 by lkrabbe          ###   ########.fr       */
+/*   Updated: 2022/10/30 02:13:10 by lkrabbe          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,13 +35,13 @@ int	check_input(t_input *input)
 {
 	if (input->philosophers > 2000 || input->philosophers < 1)
 		return (-1);
-	if (input->time_to_die > 1000 || input->time_to_die < 1)
+	if (input->time_to_die > 100000 || input->time_to_die < 1)
 		return (-1);
-	if (input->time_to_eat > 1000 || input->time_to_eat < 1)
+	if (input->time_to_eat > 10000 || input->time_to_eat < 1)
 		return (-1);
-	if (input->time_to_sleep > 1000 || input->time_to_sleep < 1)
+	if (input->time_to_sleep > 10000 || input->time_to_sleep < 1)
 		return (-1);
-	if (input->amount_to_eat > 1000 || input->amount_to_eat < 1)
+	if (input->amount_to_eat > 100 || input->amount_to_eat < 1)
 		return (0);
 	return (1);
 }
