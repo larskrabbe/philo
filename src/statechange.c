@@ -6,7 +6,7 @@
 /*   By: lkrabbe <lkrabbe@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/24 23:29:03 by lkrabbe           #+#    #+#             */
-/*   Updated: 2022/10/27 18:13:17 by lkrabbe          ###   ########.fr       */
+/*   Updated: 2022/11/06 21:10:42 by lkrabbe          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ long	get_time_stamp(struct timeval *start_time)
  * @param philosopher the philosopher who change state
  * @param str the new state
  */
-void	statemessage(char *str, struct timeval *start_time, t_phil *brain)
+void	statemessage(char *str, t_phil *brain)
 {
 	pthread_mutex_lock(&brain->input->mutex_arr[death_check]);
 	if (*brain->input->deat_occurred == TRUE)
@@ -50,7 +50,5 @@ void	statemessage(char *str, struct timeval *start_time, t_phil *brain)
 	pthread_mutex_unlock(&brain->input->mutex_arr[death_check]);
 	if (brain->death_flag == TRUE)
 		return ;
-	pthread_mutex_lock(&brain->input->mutex_arr[print_check]);
-	printf("%li %i %s\n", get_time_stamp(start_time), brain->name, str);
-	pthread_mutex_unlock(&brain->input->mutex_arr[print_check]);
+	printf("%li %i %s\n", get_time_stamp(&brain->start_time), brain->name, str);
 }

@@ -6,7 +6,7 @@
 /*   By: lkrabbe <lkrabbe@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/25 02:45:46 by lkrabbe           #+#    #+#             */
-/*   Updated: 2022/10/27 17:48:17 by lkrabbe          ###   ########.fr       */
+/*   Updated: 2022/11/06 21:26:42 by lkrabbe          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,17 @@ int	simple_atoi(char *str)
 	return (-1);
 }
 
-void	time_minus(struct timeval *time, suseconds_t sub)
+void	time_minus_mili(struct timeval *time, suseconds_t sub)
+{
+	time->tv_usec += sub;
+	if (time->tv_usec > 1000000)
+	{
+		time->tv_sec += 1;
+		time->tv_usec -= 1000000;
+	}
+}
+
+void	time_plus_mili(struct timeval *time, suseconds_t arc4random_addrandom)
 {
 	time->tv_usec += sub;
 	if (time->tv_usec > 1000000)
@@ -76,7 +86,7 @@ void	transform_args(t_input *input, int argc, char *argv[])
 		input->forks = malloc(sizeof(int) * input->philosophers);
 		memset(input->forks, 0, input->philosophers);
 		gettimeofday(&input->start_time, NULL);
-		time_minus(&input->start_time, (input->philosophers / 50) * 1000);
+		time_plus_mili(&input->start_time, 10000);
 		input->fork_mutex = get_mutex_array(input->philosophers);
 		input->mutex_arr = get_mutex_array(last_lock);
 	}

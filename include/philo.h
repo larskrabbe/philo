@@ -6,7 +6,7 @@
 /*   By: lkrabbe <lkrabbe@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/24 22:39:36 by lkrabbe           #+#    #+#             */
-/*   Updated: 2022/10/27 18:22:21 by lkrabbe          ###   ########.fr       */
+/*   Updated: 2022/11/06 21:11:00 by lkrabbe          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,15 +92,15 @@ typedef struct s_input
  * 
  */
 typedef struct s_phil{
-	t_input	*input;
-	int		name;
-	int		right_fork;
-	int		state;
-	long	energy;
-	// long	last_meal
-	int		death_flag;
+	t_input			*input;
+	int				name;
+	int				right_fork;
+	int				state;
+	long			energy;
+	struct timeval	start_time;
+	struct timeval	death_time;
+	int				death_flag;
 }t_phil;
-
 
 //?-----------------THE_PROTOTYPS--------------?//
 
@@ -112,7 +112,7 @@ typedef struct s_phil{
  *
  * @return nothing
  */
-void	statemessage(char *str, struct timeval *start_time, t_phil *brain);
+void	statemessage(char *str, t_phil *brain);
 /**
  * @brief import the arg form the main in to the input struct
  *  or returns error if something is not  allowed

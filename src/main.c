@@ -6,7 +6,7 @@
 /*   By: lkrabbe <lkrabbe@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/24 22:39:00 by lkrabbe           #+#    #+#             */
-/*   Updated: 2022/10/30 02:13:10 by lkrabbe          ###   ########.fr       */
+/*   Updated: 2022/11/06 21:14:32 by lkrabbe          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,6 @@ void	print_strct(t_input *input)
 	printf("%i\n", input->amount_to_eat);
 	fflush(stdout);
 }
-
 
 int	check_input(t_input *input)
 {
