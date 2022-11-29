@@ -6,7 +6,7 @@
 /*   By: lkrabbe <lkrabbe@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/25 02:45:46 by lkrabbe           #+#    #+#             */
-/*   Updated: 2022/11/06 21:26:42 by lkrabbe          ###   ########.fr       */
+/*   Updated: 2022/11/29 16:17:13 by lkrabbe          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ void	time_minus_mili(struct timeval *time, suseconds_t sub)
 	}
 }
 
-void	time_plus_mili(struct timeval *time, suseconds_t arc4random_addrandom)
+void	time_plus_mili(struct timeval *time, suseconds_t sub)
 {
 	time->tv_usec += sub;
 	if (time->tv_usec > 1000000)
