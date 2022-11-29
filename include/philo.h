@@ -6,7 +6,7 @@
 /*   By: lkrabbe <lkrabbe@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/24 22:39:36 by lkrabbe           #+#    #+#             */
-/*   Updated: 2022/11/06 21:11:00 by lkrabbe          ###   ########.fr       */
+/*   Updated: 2022/11/29 22:25:14 by lkrabbe          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,10 +62,10 @@ typedef enum e_mutex_locks{
 	last_lock,
 }t_mutex_locks;
 
-typedef enum e_forkstate{
-	on_table = 0,
-	in_hand = 1,
-}t_forkstate;
+typedef enum e_philoprio{
+	can_eat = 0,
+	can_not_eat = 1,
+}t_philoprio;
 
 //?------------------THE_STRUCTS---------------?//
 /**
@@ -88,18 +88,29 @@ typedef struct s_input
 }t_input;
 
 /**
+ * @brief structer for all the information inside of the waiter process
+ * 
+ */
+typedef struct s_waiter
+{
+	int	*prio_list;
+	int	*deat_occurred;
+	int	max;
+}t_waiter;
+
+/**
  * @brief structur for each thread to  get the start information
  * 
  */
 typedef struct s_phil{
-	t_input			*input;
-	int				name;
-	int				right_fork;
-	int				state;
-	long			energy;
-	struct timeval	start_time;
-	struct timeval	death_time;
-	int				death_flag;
+	t_input				*input;
+	int					name;
+	// int				right_fork;
+	int					state;
+	// long				energy;
+	// struct timeval	start_time;
+	// struct timeval	death_time;
+	// int				death_flag;
 }t_phil;
 
 //?-----------------THE_PROTOTYPS--------------?//
