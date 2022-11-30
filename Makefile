@@ -6,7 +6,7 @@
 #    By: lkrabbe <lkrabbe@student.42heilbronn.de    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/10/24 00:02:46 by lkrabbe           #+#    #+#              #
-#    Updated: 2022/11/06 21:06:58 by lkrabbe          ###   ########.fr        #
+#    Updated: 2022/11/30 14:14:20 by lkrabbe          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,7 @@ NAME = philo
 
 CC = cc -pthread
 
-CFLAGS =  -Wextra -Wall  -g -fsanitize=thread #-fsanitize=addres -Werror
+CFLAGS = -Wextra -Wall -Werror -g -fsanitize=thread #-fsanitize=addres 
 
 DIR_SRC = src
 
@@ -29,7 +29,11 @@ SRC = main.c \
 		statecycle.c\
 		get_next_arg.c\
 
-OBJ = $(SRC:.c=.o) $(DIR_LIBFT_PLUS:.c=.o) 
+OBJ_NAME=$(SRC_NAME:.c=.o)
+
+OBJ=$(addprefix $(OBJ_DIR),$(OBJ_NAME))
+
+SRC=$(addprefix $(SRC_DIR),$(SRC_NAME))
 
 all :  $(OBJ)
 	@echo	"\033[0;32m compiling $(NAME)\n\033[0m"

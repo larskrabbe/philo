@@ -6,7 +6,7 @@
 /*   By: lkrabbe <lkrabbe@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/25 01:51:06 by lkrabbe           #+#    #+#             */
-/*   Updated: 2022/11/29 19:19:00 by lkrabbe          ###   ########.fr       */
+/*   Updated: 2022/11/30 15:51:14 by lkrabbe          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,15 +40,31 @@ void	milisleep(unsigned int time)
 	// 	usleep(dif_time * 0.8);
 	// 	dif_time = timeval_to_ll(&start_time, &current_time);
 	// }
-		usleep(time * 0.8);
+	usleep(time * 1000);
+}
+
+/**
+ * @brief send the waiter process a request to get unlock
+ * 
+ */
+void	send_request(t_phil *philo)
+{
+	pthread_mutex_lock(philo->request_mutex);
+		*philo->request = 1;
+	pthread_mutex_unlock(philo->request_mutex);
 }
 
 void	philocycle(t_phil *philo)
 {
-	statemessage("take left fork", philo);
-	statemessage("take right fork", philo);
-	statemessage("eats", philo);
-	milisleep(philo->input->time_to_eat);
-	statemessage("sleeping", philo);
-	milisleep(philo->input->time_to_sleep);
+	while (philo->death_occured)
+	{
+		send_request(philo);
+		pthread_mutex_lock(philo->philo_mutex);
+		statemessage("take left fork", philo);
+		statemessage("take right fork", philo);
+		statemessage("eats", philo);
+		milisleep(philo->input->time_to_eat);
+		statemessage("sleeping", philo);
+		milisleep(philo->input->time_to_sleep);
+	}
 }

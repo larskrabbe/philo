@@ -6,7 +6,7 @@
 /*   By: lkrabbe <lkrabbe@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/24 22:39:36 by lkrabbe           #+#    #+#             */
-/*   Updated: 2022/11/29 22:25:14 by lkrabbe          ###   ########.fr       */
+/*   Updated: 2022/11/30 15:56:05 by lkrabbe          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,12 +80,9 @@ typedef struct s_input
 	int				time_to_eat;
 	int				time_to_sleep;
 	int				amount_to_eat;
-	int				*forks;
-	pthread_mutex_t	*fork_mutex;
-	pthread_mutex_t	*mutex_arr;
 	struct timeval	start_time;
-	int				*deat_occurred;
 }t_input;
+
 
 /**
  * @brief structer for all the information inside of the waiter process
@@ -93,9 +90,11 @@ typedef struct s_input
  */
 typedef struct s_waiter
 {
-	int	*prio_list;
-	int	*deat_occurred;
-	int	max;
+	pthread_mutex_t	*request_mutex;
+	int				*request_list;
+	int				*prio_list;
+	int				*deat_occurred;
+	int				max;
 }t_waiter;
 
 /**
@@ -103,14 +102,13 @@ typedef struct s_waiter
  * 
  */
 typedef struct s_phil{
-	t_input				*input;
-	int					name;
-	// int				right_fork;
-	int					state;
-	// long				energy;
-	// struct timeval	start_time;
-	// struct timeval	death_time;
-	// int				death_flag;
+	t_input			*input;
+	int				name;
+	pthread_mutex_t	*philo_mutex;
+	pthread_mutex_t	*request_mutex;
+	int				*request;
+	int				state;
+	int				death_occured;
 }t_phil;
 
 //?-----------------THE_PROTOTYPS--------------?//
