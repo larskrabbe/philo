@@ -6,7 +6,7 @@
 /*   By: lkrabbe <lkrabbe@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/25 02:58:05 by lkrabbe           #+#    #+#             */
-/*   Updated: 2022/11/06 21:09:42 by lkrabbe          ###   ########.fr       */
+/*   Updated: 2022/12/01 17:23:57 by lkrabbe          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	*lifecycle(void *param)
 {
 	while (wait_until(&((t_phil *)param)->input->start_time))
 		usleep(10);
-	thinking_cycle(param);
+	// thinking_cycle(param);
 	return (NULL);
 }
 
@@ -38,14 +38,14 @@ void	create_philo(t_input *input, int count)
 	{
 		brain = malloc(sizeof(t_phil));
 		if (brain == NULL)
-			return ;// error
+			return;
 		brain->input = input;
 		brain->name = count;
-		brain->right_fork = count + 1;
-		brain->start_time = input->start_time;
-		if (brain->right_fork >= input->philosophers)
-			brain->right_fork = 1;
-		brain->energy = input->time_to_die;
+		// brain->right_fork = count + 1;
+		// brain->start_time = input->start_time;
+		// if (brain->right_fork >= input->philosophers)
+		// 	brain->right_fork = 1;
+		// brain->energy = input->time_to_die;
 		count++;
 		pthread_create(&pthread, NULL, &lifecycle, brain);
 		create_philo(input, count);

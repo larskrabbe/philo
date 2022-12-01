@@ -6,7 +6,7 @@
 /*   By: lkrabbe <lkrabbe@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/24 23:29:03 by lkrabbe           #+#    #+#             */
-/*   Updated: 2022/11/06 21:10:42 by lkrabbe          ###   ########.fr       */
+/*   Updated: 2022/12/01 17:20:24 by lkrabbe          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,11 +44,11 @@ long	get_time_stamp(struct timeval *start_time)
  */
 void	statemessage(char *str, t_phil *brain)
 {
-	pthread_mutex_lock(&brain->input->mutex_arr[death_check]);
-	if (*brain->input->deat_occurred == TRUE)
-		brain->death_flag = TRUE;
-	pthread_mutex_unlock(&brain->input->mutex_arr[death_check]);
-	if (brain->death_flag == TRUE)
-		return ;
-	printf("%li %i %s\n", get_time_stamp(&brain->start_time), brain->name, str);
+	// pthread_mutex_lock(&brain->input->mutex_arr[death_check]);
+	// if (*brain->input->deat_occurred == TRUE)
+		brain->death_occured = TRUE;
+	// pthread_mutex_unlock(&brain->input->mutex_arr[death_check]);
+	// if (brain->death_flag == TRUE)
+	// 	return ;
+	printf(" %i %s\n", brain->name, str);
 }

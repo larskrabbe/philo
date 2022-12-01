@@ -6,7 +6,7 @@
 /*   By: lkrabbe <lkrabbe@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/24 22:39:36 by lkrabbe           #+#    #+#             */
-/*   Updated: 2022/11/30 15:56:05 by lkrabbe          ###   ########.fr       */
+/*   Updated: 2022/12/01 17:16:08 by lkrabbe          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,20 +121,20 @@ typedef struct s_phil{
  *
  * @return nothing
  */
-void	statemessage(char *str, t_phil *brain);
+void		statemessage(char *str, t_phil *brain);
 /**
  * @brief import the arg form the main in to the input struct
  *  or returns error if something is not  allowed
  * @todo everthing this is jst basic to test stuff
  * 
  */
-void	transform_args(t_input *input, int argc, char *argv[]);
+void		transform_args(t_input *input, int argc, char *argv[]);
 
 /**
  * @brief create the threads the the data from input
  * 
  */
-void	create_philo(t_input *input, int count);
+void		create_philo(t_input *input, int count);
 
 /**
  * @brief returns the current timestamp 
@@ -142,9 +142,9 @@ void	create_philo(t_input *input, int count);
  * @param start_time the starting time from when the start counting
  * @return returns the tim in ms stored in a long
  */
-long	get_time_stamp(struct timeval *start_time);
+long		get_time_stamp(struct timeval *start_time);
 
-void	thinking_cycle(t_phil *brain);
+void		thinking_cycle(t_phil *brain);
 /**
  * @brief gives you a pointer to the next arg separated by whitespace or \0
  * 
@@ -153,12 +153,17 @@ void	thinking_cycle(t_phil *brain);
  * 
  * @return returns a pointer to the start of the argument
  */
-char	*get_next_arg(int argc, char *argv[]);
+char		*get_next_arg(int argc, char *argv[]);
 
 /**
  * @brief returns 1 or 0 depending if char is a whitespace char
  * 
  */
-int		is_white_space(int a);
+int			is_white_space(int a);
+
+//-----------waiter_setup.c--------------//
+
+t_waiter	*create_waiter(int philo_count);
+void		delete_waiter(t_waiter *waiter);
 
 #endif

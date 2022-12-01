@@ -6,7 +6,7 @@
 /*   By: lkrabbe <lkrabbe@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/25 02:45:46 by lkrabbe           #+#    #+#             */
-/*   Updated: 2022/11/29 16:17:13 by lkrabbe          ###   ########.fr       */
+/*   Updated: 2022/12/01 17:22:01 by lkrabbe          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,11 +20,11 @@ pthread_mutex_t	*get_mutex_array(size_t len)
 	i = 0;
 	ptr = malloc(sizeof(pthread_mutex_t) * len);
 	if (ptr == NULL)
-		return (0);//free error
+		return (NULL);
 	while (i < len)
 	{
 		if (pthread_mutex_init(&ptr[i], NULL))
-			return (0);//free error
+			return (NULL);
 		i++;
 	}
 	return (ptr);
@@ -83,11 +83,11 @@ void	transform_args(t_input *input, int argc, char *argv[])
 	input->amount_to_eat = simple_atoi(get_next_arg(argc, argv));
 	if (input->philosophers > 0)
 	{
-		input->forks = malloc(sizeof(int) * input->philosophers);
-		memset(input->forks, 0, input->philosophers);
+		//input->forks = malloc(sizeof(int) * input->philosophers);
+		// memset(input->forks, 0, input->philosophers);
 		gettimeofday(&input->start_time, NULL);
 		time_plus_mili(&input->start_time, 10000);
-		input->fork_mutex = get_mutex_array(input->philosophers);
-		input->mutex_arr = get_mutex_array(last_lock);
+		//input->fork_mutex = get_mutex_array(input->philosophers);
+		//input->mutex_arr = get_mutex_array(last_lock);
 	}
 }
