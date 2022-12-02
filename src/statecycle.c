@@ -6,7 +6,7 @@
 /*   By: lkrabbe <lkrabbe@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/25 01:51:06 by lkrabbe           #+#    #+#             */
-/*   Updated: 2022/11/30 15:51:14 by lkrabbe          ###   ########.fr       */
+/*   Updated: 2022/12/02 22:09:11 by lkrabbe          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,22 +26,6 @@ long long	timeval_to_ll(struct timeval *start, struct timeval *end)
 	return (time);
 }
 
-void	milisleep(unsigned int time)
-{
-	// long long			dif_time;
-	// struct timeval		start_time;
-	// struct timeval		current_time;
-
-	// gettimeofday(&current_time, NULL);
-	// gettimeofday(&start_time, NULL);
-	// dif_time = timeval_to_ll(&start_time, &current_time);
-	// while (time - dif_time > 100)
-	// {
-	// 	usleep(dif_time * 0.8);
-	// 	dif_time = timeval_to_ll(&start_time, &current_time);
-	// }
-	usleep(time * 1000);
-}
 
 /**
  * @brief send the waiter process a request to get unlock

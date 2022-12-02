@@ -6,7 +6,7 @@
 /*   By: lkrabbe <lkrabbe@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/01 16:48:55 by lkrabbe           #+#    #+#             */
-/*   Updated: 2022/12/01 17:13:51 by lkrabbe          ###   ########.fr       */
+/*   Updated: 2022/12/02 19:45:41 by lkrabbe          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,8 @@ t_waiter	*create_waiter(int philo_count)
 {
 	t_waiter	*waiter;
 
+	if (philo_count < 1)
+		return (NULL);
 	waiter = malloc(sizeof(t_waiter));
 	if (create_prio_list(waiter, philo_count) == 0)
 	{

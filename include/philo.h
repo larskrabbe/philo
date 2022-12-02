@@ -6,7 +6,7 @@
 /*   By: lkrabbe <lkrabbe@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/24 22:39:36 by lkrabbe           #+#    #+#             */
-/*   Updated: 2022/12/01 17:16:08 by lkrabbe          ###   ########.fr       */
+/*   Updated: 2022/12/02 22:04:35 by lkrabbe          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,7 @@ typedef struct s_waiter
  * 
  */
 typedef struct s_phil{
-	t_input			*input;
+	t_input			input;
 	int				name;
 	pthread_mutex_t	*philo_mutex;
 	pthread_mutex_t	*request_mutex;
@@ -113,52 +113,15 @@ typedef struct s_phil{
 
 //?-----------------THE_PROTOTYPS--------------?//
 
-/**
- * @brief prints messasg about new state of a philosopher with timestamp 
- * 
- * @param brain current philosopher
- * @param str string that contains the new state 
- *
- * @return nothing
- */
 void		statemessage(char *str, t_phil *brain);
-/**
- * @brief import the arg form the main in to the input struct
- *  or returns error if something is not  allowed
- * @todo everthing this is jst basic to test stuff
- * 
- */
 void		transform_args(t_input *input, int argc, char *argv[]);
-
-/**
- * @brief create the threads the the data from input
- * 
- */
-void		create_philo(t_input *input, int count);
-
-/**
- * @brief returns the current timestamp 
- * 
- * @param start_time the starting time from when the start counting
- * @return returns the tim in ms stored in a long
- */
+//
+t_phil		*create_philo(t_input *input);
 long		get_time_stamp(struct timeval *start_time);
 
 void		thinking_cycle(t_phil *brain);
-/**
- * @brief gives you a pointer to the next arg separated by whitespace or \0
- * 
- * @param argv the pointer to the start of the arguments
- * @param argc the amount of args
- * 
- * @return returns a pointer to the start of the argument
- */
 char		*get_next_arg(int argc, char *argv[]);
 
-/**
- * @brief returns 1 or 0 depending if char is a whitespace char
- * 
- */
 int			is_white_space(int a);
 
 //-----------waiter_setup.c--------------//

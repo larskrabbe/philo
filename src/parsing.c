@@ -6,7 +6,7 @@
 /*   By: lkrabbe <lkrabbe@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/25 02:45:46 by lkrabbe           #+#    #+#             */
-/*   Updated: 2022/12/01 17:22:01 by lkrabbe          ###   ########.fr       */
+/*   Updated: 2022/12/02 22:07:53 by lkrabbe          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,25 +53,6 @@ int	simple_atoi(char *str)
 	return (-1);
 }
 
-void	time_minus_mili(struct timeval *time, suseconds_t sub)
-{
-	time->tv_usec += sub;
-	if (time->tv_usec > 1000000)
-	{
-		time->tv_sec += 1;
-		time->tv_usec -= 1000000;
-	}
-}
-
-void	time_plus_mili(struct timeval *time, suseconds_t sub)
-{
-	time->tv_usec += sub;
-	if (time->tv_usec > 1000000)
-	{
-		time->tv_sec += 1;
-		time->tv_usec -= 1000000;
-	}
-}
 
 void	transform_args(t_input *input, int argc, char *argv[])
 {
