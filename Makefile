@@ -6,7 +6,7 @@
 #    By: lkrabbe <lkrabbe@student.42heilbronn.de    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/10/24 00:02:46 by lkrabbe           #+#    #+#              #
-#    Updated: 2022/12/03 13:35:05 by lkrabbe          ###   ########.fr        #
+#    Updated: 2022/12/03 13:53:02 by lkrabbe          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,7 +31,8 @@ SRC = main.c \
 		waiter_setup.c\
 		philo_setup.c\
 		time_utils.c\
-		utils.c
+		utils.c\
+		mutex.c
 
 
 # OBJ=$(addprefix $(OBJ_DIR),$(OBJ_NAME))

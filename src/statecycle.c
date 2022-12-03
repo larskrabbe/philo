@@ -6,7 +6,7 @@
 /*   By: lkrabbe <lkrabbe@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/25 01:51:06 by lkrabbe           #+#    #+#             */
-/*   Updated: 2022/12/03 13:41:26 by lkrabbe          ###   ########.fr       */
+/*   Updated: 2022/12/03 14:45:22 by lkrabbe          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,4 +54,25 @@ void	*philocycle(void *param)
 		milisleep(philo->input.time_to_sleep);
 	}
 	return (philo);
+}
+
+void	pthread_main(t_phil *philo_array, t_waiter *waiter)
+{
+	int			i;
+	pthread_t	*pthread_array;
+	pthread_t	waiter_pthread;
+
+	pthread_array = malloc(sizeof(pthread_t) * waiter->max);
+	if (pthread_array == NULL)
+		return ;
+	i = start_philo(philo_array, pthread_array, waiter->max);
+	if (i == waiter->max)
+	{
+		if (pthread_create(&waiter_pthread, NULL, \
+		philocycle, &philo_array[i]) != 0)
+			*waiter->deat_occurred = TRUE;
+		else
+			pthread_join(waiter_pthread, NULL);
+	}
+	join_philo(pthread_array, i);
 }

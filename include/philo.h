@@ -6,7 +6,7 @@
 /*   By: lkrabbe <lkrabbe@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/24 22:39:36 by lkrabbe           #+#    #+#             */
-/*   Updated: 2022/12/03 13:40:41 by lkrabbe          ###   ########.fr       */
+/*   Updated: 2022/12/03 14:32:52 by lkrabbe          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,7 @@ typedef struct s_input
 typedef struct s_waiter
 {
 	pthread_mutex_t	*request_mutex;
+	pthread_mutex_t	*philo_mutex;
 	int				*request_list;
 	int				*prio_list;
 	int				*deat_occurred;
@@ -112,7 +113,7 @@ typedef struct s_phil{
 }t_phil;
 
 //?-----------------THE_PROTOTYPS--------------?//
-
+//TODO
 void		statemessage(char *str, t_phil *brain);
 void		transform_args(t_input *input, int argc, char *argv[]);
 //
@@ -150,10 +151,15 @@ void		milisleep(unsigned int time);
 
 //+-------------utiles.c---------------+//
 
-void	print_input_strct(t_input *input);
+void		print_input_strct(t_input *input);
+void		pthread_main(t_phil *philo_array, t_waiter *waiter);
 
-//+-------------staecycle.c------------+//
+//+-------------statecycle.c------------+//
 
-void	*philocycle(void *param);
+void		*philocycle(void *param);
+
+//+------------mutex.c---------------+//
+
+int			mutex_link(t_phil *philo_array, t_waiter *waiter);
 
 #endif

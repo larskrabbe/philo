@@ -6,7 +6,7 @@
 /*   By: lkrabbe <lkrabbe@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/24 22:39:00 by lkrabbe           #+#    #+#             */
-/*   Updated: 2022/12/03 13:45:16 by lkrabbe          ###   ########.fr       */
+/*   Updated: 2022/12/03 14:18:18 by lkrabbe          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,8 @@ int	main(int argc, char *argv[])
 	else
 	{
 		philo_array = create_philo(&input);
-		//here the pthread start
+		if (!mutex_link(philo_array, waiter))
+			pthread_main(philo_array, waiter);
 		free(philo_array);
 	}
 	delete_waiter(waiter);

@@ -6,29 +6,11 @@
 /*   By: lkrabbe <lkrabbe@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/25 02:45:46 by lkrabbe           #+#    #+#             */
-/*   Updated: 2022/12/02 22:07:53 by lkrabbe          ###   ########.fr       */
+/*   Updated: 2022/12/03 14:21:41 by lkrabbe          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include	"../include/philo.h"
-
-pthread_mutex_t	*get_mutex_array(size_t len)
-{
-	pthread_mutex_t	*ptr;
-	size_t			i;
-
-	i = 0;
-	ptr = malloc(sizeof(pthread_mutex_t) * len);
-	if (ptr == NULL)
-		return (NULL);
-	while (i < len)
-	{
-		if (pthread_mutex_init(&ptr[i], NULL))
-			return (NULL);
-		i++;
-	}
-	return (ptr);
-}
 
 int	simple_atoi(char *str)
 {
