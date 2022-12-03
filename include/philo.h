@@ -6,7 +6,7 @@
 /*   By: lkrabbe <lkrabbe@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/24 22:39:36 by lkrabbe           #+#    #+#             */
-/*   Updated: 2022/12/02 22:04:35 by lkrabbe          ###   ########.fr       */
+/*   Updated: 2022/12/03 13:40:41 by lkrabbe          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,16 +117,43 @@ void		statemessage(char *str, t_phil *brain);
 void		transform_args(t_input *input, int argc, char *argv[]);
 //
 t_phil		*create_philo(t_input *input);
-long		get_time_stamp(struct timeval *start_time);
 
 void		thinking_cycle(t_phil *brain);
 char		*get_next_arg(int argc, char *argv[]);
 
 int			is_white_space(int a);
 
-//-----------waiter_setup.c--------------//
+//+------------philo_setup.c-------------+//
+
+t_phil		*create_philo(t_input *input);
+int			start_philo(t_phil *philo_array, pthread_t *pthread_array, int max);
+int			join_philo(pthread_t *pthread_array, int max);
+
+//+--------------waiter.c------------------+//
+
+void		calc_prio(t_waiter *waiter, int pos);
+void		check_for_request(t_waiter *waiter);
+void		waiter(t_waiter *waiter);
+
+//+-----------waiter_setup.c--------------+//
 
 t_waiter	*create_waiter(int philo_count);
 void		delete_waiter(t_waiter *waiter);
+
+//+-----------time_utils.c--------------+//
+
+long		get_time_stamp(struct timeval *start_time);
+void		wait_until(struct timeval *time);
+void		time_minus_mili(struct timeval *time, suseconds_t sub);
+void		time_plus_mili(struct timeval *time, suseconds_t sub);
+void		milisleep(unsigned int time);
+
+//+-------------utiles.c---------------+//
+
+void	print_input_strct(t_input *input);
+
+//+-------------staecycle.c------------+//
+
+void	*philocycle(void *param);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: lkrabbe <lkrabbe@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/02 22:05:09 by lkrabbe           #+#    #+#             */
-/*   Updated: 2022/12/02 22:11:56 by lkrabbe          ###   ########.fr       */
+/*   Updated: 2022/12/03 13:35:39 by lkrabbe          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ int	start_philo(t_phil *philo_array, pthread_t *pthread_array, int max)
 	while (i < max)
 	{
 		if (pthread_create(&pthread_array[i], NULL, \
-		&lifecycle, &philo_array[i]))
+		&philocycle, &philo_array[i]))
 			return (i);
 		i++;
 	}

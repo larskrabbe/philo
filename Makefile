@@ -6,7 +6,7 @@
 #    By: lkrabbe <lkrabbe@student.42heilbronn.de    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/10/24 00:02:46 by lkrabbe           #+#    #+#              #
-#    Updated: 2022/12/01 12:26:30 by lkrabbe          ###   ########.fr        #
+#    Updated: 2022/12/03 13:35:05 by lkrabbe          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,11 +25,13 @@ DIR_OBJ = obj
 SRC = main.c \
 		statechange.c \
 		parsing.c\
-		createphilosophers.c\
 		statecycle.c\
 		get_next_arg.c\
 		waiter.c\
-		waiter_setup.c
+		waiter_setup.c\
+		philo_setup.c\
+		time_utils.c\
+		utils.c
 
 
 # OBJ=$(addprefix $(OBJ_DIR),$(OBJ_NAME))

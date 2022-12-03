@@ -6,7 +6,7 @@
 /*   By: lkrabbe <lkrabbe@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/25 01:51:06 by lkrabbe           #+#    #+#             */
-/*   Updated: 2022/12/02 22:09:11 by lkrabbe          ###   ########.fr       */
+/*   Updated: 2022/12/03 13:41:26 by lkrabbe          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,6 @@ long long	timeval_to_ll(struct timeval *start, struct timeval *end)
 	return (time);
 }
 
-
 /**
  * @brief send the waiter process a request to get unlock
  * 
@@ -38,8 +37,11 @@ void	send_request(t_phil *philo)
 	pthread_mutex_unlock(philo->request_mutex);
 }
 
-void	philocycle(t_phil *philo)
+void	*philocycle(void *param)
 {
+	t_phil	*philo;
+
+	philo = param;
 	while (philo->death_occured)
 	{
 		send_request(philo);
@@ -47,8 +49,9 @@ void	philocycle(t_phil *philo)
 		statemessage("take left fork", philo);
 		statemessage("take right fork", philo);
 		statemessage("eats", philo);
-		milisleep(philo->input->time_to_eat);
+		milisleep(philo->input.time_to_eat);
 		statemessage("sleeping", philo);
-		milisleep(philo->input->time_to_sleep);
+		milisleep(philo->input.time_to_sleep);
 	}
+	return (philo);
 }

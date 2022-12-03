@@ -6,7 +6,7 @@
 /*   By: lkrabbe <lkrabbe@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/24 22:39:00 by lkrabbe           #+#    #+#             */
-/*   Updated: 2022/12/02 22:14:20 by lkrabbe          ###   ########.fr       */
+/*   Updated: 2022/12/03 13:45:16 by lkrabbe          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,8 +43,12 @@ int	main(int argc, char *argv[])
 		return (0);
 	if (check_input(&input) < 0)
 		printf("invalid input\n");
-	// else
-	// 	create_philo(&input, 1);
+	else
+	{
+		philo_array = create_philo(&input);
+		//here the pthread start
+		free(philo_array);
+	}
 	delete_waiter(waiter);
 	printf("\033[0;32mphilo end\033[0m\n");
 	return (0);
