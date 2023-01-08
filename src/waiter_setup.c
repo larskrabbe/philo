@@ -6,7 +6,7 @@
 /*   By: lkrabbe <lkrabbe@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/01 16:48:55 by lkrabbe           #+#    #+#             */
-/*   Updated: 2022/12/02 19:45:41 by lkrabbe          ###   ########.fr       */
+/*   Updated: 2023/01/08 19:26:38 by lkrabbe          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,9 +49,10 @@ static int	create_request_list(t_waiter *waiter, int philo_count)
 	int	i;
 
 	i = 0;
-	waiter->request_list = malloc(sizeof(int) * philo_count);
+	waiter->request_list = malloc(sizeof(int) * philo_count * 2);
 	if (waiter->request_list == NULL)
 		return (0);
+	waiter->request_copy = &waiter->request_list[philo_count];
 	while (i < philo_count)
 	{
 		waiter->request_list[i] = 1;
@@ -85,6 +86,7 @@ t_waiter	*create_waiter(int philo_count)
 		free(waiter);
 		return (NULL);
 	}
+	waiter->max = philo_count;
 	return (waiter);
 }
 

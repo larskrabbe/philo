@@ -6,7 +6,7 @@
 /*   By: lkrabbe <lkrabbe@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/24 22:39:00 by lkrabbe           #+#    #+#             */
-/*   Updated: 2022/12/03 14:18:18 by lkrabbe          ###   ########.fr       */
+/*   Updated: 2023/01/08 21:03:45 by lkrabbe          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,18 +36,23 @@ int	main(int argc, char *argv[])
 
 	death = FALSE;
 	// input.deat_occurred = &death;
-	printf("\033[0;32m philo start for real\033[0m\n");
+	printf("\033[0;32m philo start\033[0m\n");
 	transform_args(&input, argc, argv);
 	waiter = create_waiter(input.philosophers);
+	waiter->deat_occurred = &death;
 	if (waiter == NULL)
-		return (0);
+		return (0);// needs to return a error code/message
 	if (check_input(&input) < 0)
+	{
 		printf("invalid input\n");
+	}
 	else
 	{
 		philo_array = create_philo(&input);
-		if (!mutex_link(philo_array, waiter))
+		if (mutex_link(philo_array, waiter))
+		{
 			pthread_main(philo_array, waiter);
+		}
 		free(philo_array);
 	}
 	delete_waiter(waiter);

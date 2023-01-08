@@ -6,7 +6,7 @@
 #    By: lkrabbe <lkrabbe@student.42heilbronn.de    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/10/24 00:02:46 by lkrabbe           #+#    #+#              #
-#    Updated: 2022/12/03 13:53:02 by lkrabbe          ###   ########.fr        #
+#    Updated: 2023/01/08 19:01:39 by lkrabbe          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,8 +16,10 @@ NAME = philo
 
 CC = cc -pthread
 
-CFLAGS = -Wextra -Wall -Werror  #-g -fsanitize=thread #-fsanitize=addres 
+LEAK = # -L/Users/lkrabbe/leaksanitizer/LeakSanitizer -llsan -lc++
 
+CFLAGS = $(LEAK) -Wextra -Wall -Werror #-fsanitize=address
+ #-g -fsanitize=thread #
 DIR_SRC = src
 
 DIR_OBJ = obj

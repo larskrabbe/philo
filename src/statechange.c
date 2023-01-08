@@ -6,7 +6,7 @@
 /*   By: lkrabbe <lkrabbe@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/24 23:29:03 by lkrabbe           #+#    #+#             */
-/*   Updated: 2022/12/03 12:22:05 by lkrabbe          ###   ########.fr       */
+/*   Updated: 2023/01/08 16:49:33 by lkrabbe          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,13 +20,13 @@
  * @param philosopher the philosopher who change state
  * @param str the new state
  */
-void	statemessage(char *str, t_phil *brain)
+void	statemessage(char *str, t_phil *philo)
 {
-	// pthread_mutex_lock(&brain->input->mutex_arr[death_check]);
-	// if (*brain->input->deat_occurred == TRUE)
-		brain->death_occured = TRUE;
+	// pthread_mutex_lock(&philo->death_mutex);
+	if (philo->death_occured == TRUE)
+		philo->death_occured = TRUE;
 	// pthread_mutex_unlock(&brain->input->mutex_arr[death_check]);
-	// if (brain->death_flag == TRUE)
+	// if (philo->death_flag == TRUE)
 	// 	return ;
-	printf(" %i %s\n", brain->name, str);
+	printf(" %i %s\n", philo->name, str);
 }

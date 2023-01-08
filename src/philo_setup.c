@@ -6,7 +6,7 @@
 /*   By: lkrabbe <lkrabbe@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/02 22:05:09 by lkrabbe           #+#    #+#             */
-/*   Updated: 2022/12/03 14:32:09 by lkrabbe          ###   ########.fr       */
+/*   Updated: 2023/01/08 17:00:43 by lkrabbe          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,13 +43,20 @@ int	join_philo(pthread_t *pthread_array, int max)
  * 
  * @return the ammount pthread that got started
  */
-int	start_philo(t_phil *philo_array, pthread_t *pthread_array, int max)
+int	start_philo(t_phil *philo_array, pthread_t *pthread_array, int max, t_waiter *waiter)
 {
 	int	i;
 
 	i = 0;
 	while (i < max)
 	{
+		philo_array[i].name = i;
+		philo_array[i].philo_mutex = &waiter->philo_mutex[i];
+		philo_array[i].request_mutex = &waiter->request_mutex[i];
+		philo_array[i].request = &waiter->request_list[i];
+		philo_array[i].death_occured = FALSE;
+		pthread_mutex_lock(&waiter->philo_mutex[i]);
+		//printf("address = %p\n", &waiter->request_mutex[i]);
 		if (pthread_create(&pthread_array[i], NULL, \
 		philocycle, &philo_array[i]))
 			return (i);

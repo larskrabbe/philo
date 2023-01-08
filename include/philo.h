@@ -6,7 +6,7 @@
 /*   By: lkrabbe <lkrabbe@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/24 22:39:36 by lkrabbe           #+#    #+#             */
-/*   Updated: 2022/12/03 14:32:52 by lkrabbe          ###   ########.fr       */
+/*   Updated: 2023/01/08 20:09:30 by lkrabbe          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,7 @@ typedef struct s_waiter
 	pthread_mutex_t	*request_mutex;
 	pthread_mutex_t	*philo_mutex;
 	int				*request_list;
+	int				*request_copy;
 	int				*prio_list;
 	int				*deat_occurred;
 	int				max;
@@ -127,14 +128,14 @@ int			is_white_space(int a);
 //+------------philo_setup.c-------------+//
 
 t_phil		*create_philo(t_input *input);
-int			start_philo(t_phil *philo_array, pthread_t *pthread_array, int max);
+int			start_philo(t_phil *philo_array, pthread_t *pthread_array, int max, t_waiter *waiter);
 int			join_philo(pthread_t *pthread_array, int max);
 
 //+--------------waiter.c------------------+//
 
-void		calc_prio(t_waiter *waiter, int pos);
+void		calc_prio(t_waiter *waiter);
 void		check_for_request(t_waiter *waiter);
-void		waiter(t_waiter *waiter);
+void		waitercycle(t_waiter *waiter);
 
 //+-----------waiter_setup.c--------------+//
 
@@ -153,6 +154,7 @@ void		milisleep(unsigned int time);
 
 void		print_input_strct(t_input *input);
 void		pthread_main(t_phil *philo_array, t_waiter *waiter);
+void		print_waiter_info(t_waiter *waiter);
 
 //+-------------statecycle.c------------+//
 
