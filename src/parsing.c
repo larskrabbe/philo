@@ -6,11 +6,29 @@
 /*   By: lkrabbe <lkrabbe@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/25 02:45:46 by lkrabbe           #+#    #+#             */
-/*   Updated: 2022/12/03 14:21:41 by lkrabbe          ###   ########.fr       */
+/*   Updated: 2023/01/09 20:31:50 by lkrabbe          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include	"../include/philo.h"
+
+pthread_mutex_t	*get_mutex_array(size_t len)
+{
+	pthread_mutex_t	*ptr;
+	size_t			i;
+
+	i = 0;
+	ptr = malloc(sizeof(pthread_mutex_t) * len);
+	if (ptr == NULL)
+		return (0);//free error
+	while (i < len)
+	{
+		if (pthread_mutex_init(&ptr[i], NULL))
+			return (0);//free error
+		i++;
+	}
+	return (ptr);
+}
 
 int	simple_atoi(char *str)
 {
@@ -35,6 +53,25 @@ int	simple_atoi(char *str)
 	return (-1);
 }
 
+void	time_minus_mili(struct timeval *time, suseconds_t sub)
+{
+	time->tv_usec += sub;
+	if (time->tv_usec > 1000000)
+	{
+		time->tv_sec += 1;
+		time->tv_usec -= 1000000;
+	}
+}
+
+void	time_plus_mili(struct timeval *time, suseconds_t add)
+{
+	time->tv_usec += add;
+	if (time->tv_usec > 1000000)
+	{
+		time->tv_sec += 1;
+		time->tv_usec -= 1000000;
+	}
+}
 
 void	transform_args(t_input *input, int argc, char *argv[])
 {
@@ -46,11 +83,11 @@ void	transform_args(t_input *input, int argc, char *argv[])
 	input->amount_to_eat = simple_atoi(get_next_arg(argc, argv));
 	if (input->philosophers > 0)
 	{
-		//input->forks = malloc(sizeof(int) * input->philosophers);
-		// memset(input->forks, 0, input->philosophers);
+		input->forks = malloc(sizeof(int) * input->philosophers);
+		memset(input->forks, 0, input->philosophers);
 		gettimeofday(&input->start_time, NULL);
 		time_plus_mili(&input->start_time, 10000);
-		//input->fork_mutex = get_mutex_array(input->philosophers);
-		//input->mutex_arr = get_mutex_array(last_lock);
+		input->fork_mutex = get_mutex_array(input->philosophers);
+		input->mutex_arr = get_mutex_array(last_lock);
 	}
 }

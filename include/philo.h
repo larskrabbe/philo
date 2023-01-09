@@ -6,7 +6,7 @@
 /*   By: lkrabbe <lkrabbe@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/24 22:39:36 by lkrabbe           #+#    #+#             */
-/*   Updated: 2023/01/08 20:09:30 by lkrabbe          ###   ########.fr       */
+/*   Updated: 2023/01/09 17:48:18 by lkrabbe          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,10 +62,10 @@ typedef enum e_mutex_locks{
 	last_lock,
 }t_mutex_locks;
 
-typedef enum e_philoprio{
-	can_eat = 0,
-	can_not_eat = 1,
-}t_philoprio;
+typedef enum e_forkstate{
+	on_table = 0,
+	in_hand = 1,
+}t_forkstate;
 
 //?------------------THE_STRUCTS---------------?//
 /**
@@ -80,88 +80,85 @@ typedef struct s_input
 	int				time_to_eat;
 	int				time_to_sleep;
 	int				amount_to_eat;
+	int				*forks;
+	pthread_mutex_t	*fork_mutex;
+	pthread_mutex_t	*mutex_arr;
 	struct timeval	start_time;
-}t_input;
-
-
-/**
- * @brief structer for all the information inside of the waiter process
- * 
- */
-typedef struct s_waiter
-{
-	pthread_mutex_t	*request_mutex;
-	pthread_mutex_t	*philo_mutex;
-	int				*request_list;
-	int				*request_copy;
-	int				*prio_list;
 	int				*deat_occurred;
-	int				max;
-}t_waiter;
+}t_input;
 
 /**
  * @brief structur for each thread to  get the start information
  * 
  */
 typedef struct s_phil{
-	t_input			input;
+	t_input			*input;
 	int				name;
-	pthread_mutex_t	*philo_mutex;
-	pthread_mutex_t	*request_mutex;
-	int				*request;
+	int				left_fork;
+	int				right_fork;
 	int				state;
-	int				death_occured;
+	long			energy;
+	struct timeval	start_time;
+	struct timeval	death_time;
+	int				death_flag;
+	int				(*check_fork)(struct s_phil*);
 }t_phil;
 
 //?-----------------THE_PROTOTYPS--------------?//
-//TODO
-void		statemessage(char *str, t_phil *brain);
-void		transform_args(t_input *input, int argc, char *argv[]);
-//
-t_phil		*create_philo(t_input *input);
 
-void		thinking_cycle(t_phil *brain);
-char		*get_next_arg(int argc, char *argv[]);
+/**
+ * @brief prints messasg about new state of a philosopher with timestamp 
+ * 
+ * @param brain current philosopher
+ * @param str string that contains the new state 
+ *
+ * @return nothing
+ */
+void	statemessage(char *str, t_phil *brain);
+/**
+ * @brief import the arg form the main in to the input struct
+ *  or returns error if something is not  allowed
+ * @todo everthing this is jst basic to test stuff
+ * 
+ */
+void	transform_args(t_input *input, int argc, char *argv[]);
 
-int			is_white_space(int a);
+/**
+ * @brief create the threads the the data from input
+ * 
+ */
+void	create_philo(t_input *input, int count);
 
-//+------------philo_setup.c-------------+//
+/**
+ * @brief returns the current timestamp 
+ * 
+ * @param start_time the starting time from when the start counting
+ * @return returns the tim in ms stored in a long
+ */
+long	get_time_stamp(struct timeval *start_time);
 
-t_phil		*create_philo(t_input *input);
-int			start_philo(t_phil *philo_array, pthread_t *pthread_array, int max, t_waiter *waiter);
-int			join_philo(pthread_t *pthread_array, int max);
+void	thinking_cycle(t_phil *brain);
+/**
+ * @brief gives you a pointer to the next arg separated by whitespace or \0
+ * 
+ * @param argv the pointer to the start of the arguments
+ * @param argc the amount of args
+ * 
+ * @return returns a pointer to the start of the argument
+ */
+char	*get_next_arg(int argc, char *argv[]);
 
-//+--------------waiter.c------------------+//
+/**
+ * @brief returns 1 or 0 depending if char is a whitespace char
+ * 
+ */
+int		is_white_space(int a);
 
-void		calc_prio(t_waiter *waiter);
-void		check_for_request(t_waiter *waiter);
-void		waitercycle(t_waiter *waiter);
 
-//+-----------waiter_setup.c--------------+//
-
-t_waiter	*create_waiter(int philo_count);
-void		delete_waiter(t_waiter *waiter);
-
-//+-----------time_utils.c--------------+//
-
-long		get_time_stamp(struct timeval *start_time);
-void		wait_until(struct timeval *time);
-void		time_minus_mili(struct timeval *time, suseconds_t sub);
-void		time_plus_mili(struct timeval *time, suseconds_t sub);
-void		milisleep(unsigned int time);
-
-//+-------------utiles.c---------------+//
-
-void		print_input_strct(t_input *input);
-void		pthread_main(t_phil *philo_array, t_waiter *waiter);
-void		print_waiter_info(t_waiter *waiter);
-
-//+-------------statecycle.c------------+//
-
-void		*philocycle(void *param);
-
-//+------------mutex.c---------------+//
-
-int			mutex_link(t_phil *philo_array, t_waiter *waiter);
+int		check_fork_odd(t_phil *phil);
+int		check_fork_even(t_phil *phil);
+int		wait_until(struct timeval *time);
+void	time_plus_mili(struct timeval *time, suseconds_t add);
+long	get_time_stamp(struct timeval *start_time);
 
 #endif
