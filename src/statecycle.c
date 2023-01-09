@@ -6,7 +6,7 @@
 /*   By: lkrabbe <lkrabbe@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/25 01:51:06 by lkrabbe           #+#    #+#             */
-/*   Updated: 2023/01/08 21:14:04 by lkrabbe          ###   ########.fr       */
+/*   Updated: 2023/01/09 13:54:39 by lkrabbe          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,12 +32,8 @@ long long	timeval_to_ll(struct timeval *start, struct timeval *end)
  */
 void	send_request(t_phil *philo)
 {
-	//printf("mutex address %p \n", philo->request_mutex);
 	pthread_mutex_lock(philo->request_mutex);
-	// printf(" %i >> before changing value = %i address = %p\n", philo->name, *philo->request,philo->request);
-		// check for death here
 		*philo->request = 1;
-	// printf(" %i >> after changing value %i \n", philo->name ,*philo->request);
 	pthread_mutex_unlock(philo->request_mutex);
 }
 
@@ -46,22 +42,17 @@ void	*philocycle(void *param)
 	t_phil	*philo;
 
 	philo = param;
-	//printf("in cycle %i death = %i\n", philo->name, philo->death_occured);
+	send_request(philo);
 	while (!philo->death_occured)
 	{
-		// return (0);
-		send_request(philo);
-		printf("lock %i\n", philo->name);
-		//printf(" %i start waiting %p\n", philo->name, philo->philo_mutex);
+		// send_request(philo);
+		//printf("lock %i\n", philo->name);
 		pthread_mutex_lock(philo->philo_mutex);
-		// statemessage("take left fork", philo);
-		// statemessage("take right fork", philo);
 		statemessage("eats", philo);
 		milisleep(philo->input.time_to_eat);
-		// statemessage("sleeping", philo);
+		send_request(philo);
+		statemessage("sleeping", philo);
 		milisleep(philo->input.time_to_sleep);
-		// pthread_mutex_lock(philo->philo_mutex);
-		// pthread_mutex_lock(philo->philo_mutex);
 	}
 	return (philo);
 }

@@ -6,7 +6,7 @@
 /*   By: lkrabbe <lkrabbe@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/29 16:18:27 by lkrabbe           #+#    #+#             */
-/*   Updated: 2023/01/08 21:43:41 by lkrabbe          ###   ########.fr       */
+/*   Updated: 2023/01/09 13:55:14 by lkrabbe          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,9 +40,9 @@ int	check_forks(t_waiter *waiter, int i)
 	if (waiter->prio_list[i] > waiter->prio_list[left_philo(waiter->max, i)])
 		return (5);
 	waiter->request_copy[i] = 2;
-	waiter->prio_list[i]++;
-	printf("i = %i prio = %i\n", i, waiter->prio_list[i]);
-	return (6);
+	waiter->prio_list[i] = waiter->prio_list[i] + 10;
+	// printf("i = %i prio = %i\n", i, waiter->prio_list[i]);
+	return (0);
 }
 
 /**
@@ -59,11 +59,11 @@ void	calc_prio(t_waiter *waiter)
 	i = 0;
 	while (i < waiter->max)
 	{
-		// check_forks(waiter, i);
-		printf("%i->%ip>%i |", i, check_forks(waiter, i),waiter->prio_list[i]);
+		check_forks(waiter, i);
+		// printf("%is>%ip>%ir>%i | ", i, check_forks(waiter, i),waiter->prio_list[i],waiter->request_copy[i]);
 		i++;
 	}
-		printf("\n");
+		// printf("\n");
 }
 
 /**
@@ -96,9 +96,10 @@ void	send_replie(t_waiter *waiter)
 		pthread_mutex_lock(&waiter->request_mutex[i]);
 		waiter->request_list[i] = waiter->request_copy[i];
 		//printf("%i\n", waiter->request_list[i]);
-		if (waiter->request_list[i] == 2)
+		if (waiter->request_copy[i] == 2)
 		{
-			printf("unlocks %i request = %i \n", i, waiter->request_list[i]);
+			// printf("unlocks %i request = %i \n", i, waiter->request_list[i]);
+			waiter->request_copy[i] = 0;
 			waiter->request_list[i] = 0;
 			pthread_mutex_unlock(&waiter->philo_mutex[i]);
 		}
@@ -108,6 +109,19 @@ void	send_replie(t_waiter *waiter)
 	}
 }
 
+void	debug_calc_prio(t_waiter *waiter)
+{
+	int	i;
+
+	i = 0;
+	while (i < waiter->max)
+	{
+		// check_forks(waiter, i);
+		printf("%ie>%ip>%ir>%i | ", i, check_forks(waiter, i),waiter->prio_list[i],waiter->request_copy[i]);
+		i++;
+	}
+	printf("\n");
+}
 
 /**
  * @brief main funktion for the waiter process
@@ -118,7 +132,8 @@ void	waitercycle(t_waiter *waiter)
 {
 	// int	cur_philo;
 
-	while (*waiter->deat_occurred == FALSE)
+	int i =1;
+	while (*waiter->deat_occurred == FALSE && i < 1000)
 	{
 		// printf("check\n");
 		check_for_request(waiter);
@@ -126,5 +141,7 @@ void	waitercycle(t_waiter *waiter)
 		calc_prio(waiter);
 		// printf("send\n");
 		send_replie(waiter);
+		i++;
 	}
+	debug_calc_prio(waiter);
 }
