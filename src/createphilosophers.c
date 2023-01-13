@@ -6,7 +6,7 @@
 /*   By: lkrabbe <lkrabbe@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/25 02:58:05 by lkrabbe           #+#    #+#             */
-/*   Updated: 2023/01/09 21:25:05 by lkrabbe          ###   ########.fr       */
+/*   Updated: 2023/01/12 04:32:27 by lkrabbe          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,46 +22,40 @@ int	wait_until(struct timeval *time)
 
 void	*lifecycle(void *param)
 {
-	t_phil	*ptr;
-
-	ptr = param;
 	thinking_cycle(param);
 	return (NULL);
 }
 
-void	philo_input(t_input *input, t_phil *brain, int count)
+int	free_brain(t_phil *brain)
 {
-	brain->input = input;
-	brain->name = count;
-	brain->death_flag = FALSE;
-	if (brain->name == input->philosophers)
-		brain->right_fork = 1;
-	else
-		brain->right_fork = count + 1;
-	brain->start_time = input->start_time;
-	if (brain->name % 2 == 1)
-		brain->check_fork = &check_fork_odd;
-	else
-		brain->check_fork = &check_fork_even;
-	brain->energy = input->time_to_die;
+	free(brain);
+	return (-1);
 }
 
-void	create_philo(t_input *input, int count)
+int	setup(t_input *input, int count)
 {
 	pthread_t		pthread;
 	t_phil			*brain;
 
-	if (count <= input->philosophers)
+	if (count < input->philosophers)
 	{
 		brain = malloc(sizeof(t_phil));
 		if (brain == NULL)
-			return ;// error
+			return (-1);
 		philo_input(input, brain, count);
 		count++;
-		pthread_create(&pthread, NULL, &lifecycle, brain);
-		create_philo(input, count);
+		if (pthread_create(&pthread, NULL, &lifecycle, brain))
+			return (free_brain(brain));
+		if (setup(input, count) != 0)
+		{
+			pthread_detach(pthread);
+			return (free_brain(brain));
+		}
 		if (pthread_join(pthread, NULL) != 0)
-			printf("join error\n");
+			return (free_brain(brain));
 		free(brain);
 	}
+	else
+		monitor(input);
+	return (0);
 }

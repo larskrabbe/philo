@@ -6,28 +6,46 @@
 /*   By: lkrabbe <lkrabbe@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/25 02:45:46 by lkrabbe           #+#    #+#             */
-/*   Updated: 2023/01/09 20:31:50 by lkrabbe          ###   ########.fr       */
+/*   Updated: 2023/01/12 04:05:17 by lkrabbe          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include	"../include/philo.h"
 
-pthread_mutex_t	*get_mutex_array(size_t len)
+int	is_white_space(int a)
 {
-	pthread_mutex_t	*ptr;
-	size_t			i;
+	if (a == ' ' || a == '\n' || a == '\t')
+		return (1);
+	return (0);
+}
 
+char	*get_next_arg(int argc, char *argv[])
+{
+	static char	*ptr = NULL;
+	static int	argcount = 0;
+	int			i;
+
+	if (argv == NULL || argv[argcount] == NULL || argcount > argc)
+		return (NULL);
 	i = 0;
-	ptr = malloc(sizeof(pthread_mutex_t) * len);
-	if (ptr == NULL)
-		return (0);//free error
-	while (i < len)
-	{
-		if (pthread_mutex_init(&ptr[i], NULL))
-			return (0);//free error
+	if (argcount == 0 && ptr == NULL)
+		ptr = argv[argcount];
+	else
+		while (is_white_space(ptr[i]) == 0 && ptr[i] != '\0')
+			i++;
+	while (is_white_space(ptr[i]) && ptr[i] != '\0')
 		i++;
+	while (ptr == NULL || ptr[i] == '\0')
+	{
+		argcount++;
+		ptr = argv[argcount];
+		i = 0;
+		while (ptr != NULL && is_white_space(ptr[i]) && ptr[i] != '\0')
+			i++;
+		if (ptr == NULL || ptr[i] == '\0')
+			return (ptr += i);
 	}
-	return (ptr);
+	return (ptr += i);
 }
 
 int	simple_atoi(char *str)
@@ -53,27 +71,7 @@ int	simple_atoi(char *str)
 	return (-1);
 }
 
-void	time_minus_mili(struct timeval *time, suseconds_t sub)
-{
-	time->tv_usec += sub;
-	if (time->tv_usec > 1000000)
-	{
-		time->tv_sec += 1;
-		time->tv_usec -= 1000000;
-	}
-}
-
-void	time_plus_mili(struct timeval *time, suseconds_t add)
-{
-	time->tv_usec += add;
-	if (time->tv_usec > 1000000)
-	{
-		time->tv_sec += 1;
-		time->tv_usec -= 1000000;
-	}
-}
-
-void	transform_args(t_input *input, int argc, char *argv[])
+int	transform_args(t_input *input, int argc, char *argv[])
 {
 	get_next_arg(argc, argv);
 	input->philosophers = simple_atoi(get_next_arg(argc, argv));
@@ -81,13 +79,18 @@ void	transform_args(t_input *input, int argc, char *argv[])
 	input->time_to_eat = simple_atoi(get_next_arg(argc, argv));
 	input->time_to_sleep = simple_atoi(get_next_arg(argc, argv));
 	input->amount_to_eat = simple_atoi(get_next_arg(argc, argv));
-	if (input->philosophers > 0)
+	if (check_input(input) == 0)
 	{
-		input->forks = malloc(sizeof(int) * input->philosophers);
-		memset(input->forks, 0, input->philosophers);
 		gettimeofday(&input->start_time, NULL);
 		time_plus_mili(&input->start_time, 10000);
 		input->fork_mutex = get_mutex_array(input->philosophers);
 		input->mutex_arr = get_mutex_array(last_lock);
+		input->death_check = malloc(sizeof(long) * input->philosophers + 1);
 	}
+	else
+	{	
+		printf("invalid input\n");
+		return (1);
+	}
+	return (0);
 }

@@ -6,7 +6,7 @@
 #    By: lkrabbe <lkrabbe@student.42heilbronn.de    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/10/24 00:02:46 by lkrabbe           #+#    #+#              #
-#    Updated: 2023/01/09 20:58:27 by lkrabbe          ###   ########.fr        #
+#    Updated: 2023/01/12 11:29:37 by lkrabbe          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,7 @@ NAME = philo
 
 CC = cc -pthread
 
-CFLAGS =  -Wextra -Wall  #-g -fsanitize=thread #-fsanitize=addres -Werror
+CFLAGS =  -Wextra -Wall -Werror # -g -fsanitize=address #-fsanitize=addres -Werror
 
 DIR_SRC = src
 
@@ -27,21 +27,23 @@ SRC = main.c \
 		parsing.c\
 		createphilosophers.c\
 		statecycle.c\
-		get_next_arg.c\
+		philo_setup.c\
+		time.c\
+		dinner_for_one.c\
+		monitor.c
 
 OBJ = $(SRC:.c=.o) $(DIR_LIBFT_PLUS:.c=.o) 
 
 all :  $(OBJ)
 	@echo	"\033[0;32m compiling $(NAME)\n\033[0m"
-	$(CC) $(OBJ) -o $(NAME)
+	$(CC) $(OBJ)  -o $(NAME)
 	@echo	"\033[0;32m compiling finished\n\033[0m"
-#-g -fsanitize=thread 
+# -g -fsanitize=address
 run:all
 	./$(NAME)
 
 %.o: %.c $(DIR_OBJ)
 	$(CC) -c $(CFLAGS) $< -o  $@
-
 
 $(DIR_OBJ):
 	@mkdir -p $(DIR_OBJ)
@@ -66,3 +68,6 @@ test:
 re : fclean all
 
 .phony: all re clean fclean 
+
+
+#why

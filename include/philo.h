@@ -6,7 +6,7 @@
 /*   By: lkrabbe <lkrabbe@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/24 22:39:36 by lkrabbe           #+#    #+#             */
-/*   Updated: 2023/01/09 17:48:18 by lkrabbe          ###   ########.fr       */
+/*   Updated: 2023/01/12 09:32:02 by lkrabbe          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,8 @@
 
 //?------------------THE_DEFINES---------------?//
 
-# define TOOK_L_FORK "has taken a the left fork"
-# define TOOK_R_FORK "has taken a the right fork"
+# define TOOK_L_FORK "has taken a fork"
+# define TOOK_R_FORK "has taken a fork"
 # define EATING  "is eating"
 # define SLEEPING "is sleeping"
 # define THINKING "is thinking"
@@ -40,14 +40,6 @@
 #  define INT32_MAX 2147483647
 # endif
 //?-------------------THE_ENUMS----------------?//
-
-typedef enum e_state{
-	thinking = 1,
-	sleeping = 2,
-	eating = 3,
-	dead = 4,
-}t_state;
-
 /**
  * @brief The diffrent mutexlocks that arent for forks
  * 
@@ -56,9 +48,8 @@ typedef enum e_state{
  *! its needed to malloc the correct size for the array of mutexes
  */
 typedef enum e_mutex_locks{
-	start_check = 0,
 	death_check,
-	print_check,
+	end,
 	last_lock,
 }t_mutex_locks;
 
@@ -80,11 +71,12 @@ typedef struct s_input
 	int				time_to_eat;
 	int				time_to_sleep;
 	int				amount_to_eat;
-	int				*forks;
 	pthread_mutex_t	*fork_mutex;
 	pthread_mutex_t	*mutex_arr;
 	struct timeval	start_time;
+	long			*death_check;
 	int				*deat_occurred;
+	int				*end;
 }t_input;
 
 /**
@@ -94,13 +86,12 @@ typedef struct s_input
 typedef struct s_phil{
 	t_input			*input;
 	int				name;
-	int				left_fork;
-	int				right_fork;
-	int				state;
-	long			energy;
+	pthread_mutex_t	*l_fork_mutex;
+	pthread_mutex_t	*r_fork_mutex;
 	struct timeval	start_time;
-	struct timeval	death_time;
 	int				death_flag;
+	long			*death_check;
+	int				eat_count;
 	int				(*check_fork)(struct s_phil*);
 }t_phil;
 
@@ -114,20 +105,20 @@ typedef struct s_phil{
  *
  * @return nothing
  */
-void	statemessage(char *str, t_phil *brain);
+void			statemessage(char *str, t_phil *brain);
 /**
  * @brief import the arg form the main in to the input struct
  *  or returns error if something is not  allowed
  * @todo everthing this is jst basic to test stuff
  * 
  */
-void	transform_args(t_input *input, int argc, char *argv[]);
+int				transform_args(t_input *input, int argc, char *argv[]);
 
 /**
  * @brief create the threads the the data from input
  * 
  */
-void	create_philo(t_input *input, int count);
+int				setup(t_input *input, int count);
 
 /**
  * @brief returns the current timestamp 
@@ -135,30 +126,45 @@ void	create_philo(t_input *input, int count);
  * @param start_time the starting time from when the start counting
  * @return returns the tim in ms stored in a long
  */
-long	get_time_stamp(struct timeval *start_time);
+long			get_time_stamp(struct timeval *start_time);
 
-void	thinking_cycle(t_phil *brain);
+void			thinking_cycle(t_phil *brain);
 /**
  * @brief gives you a pointer to the next arg separated by whitespace or \0
  * 
  * @param argv the pointer to the start of the arguments
  * @param argc the amount of args
  * 
+
  * @return returns a pointer to the start of the argument
  */
-char	*get_next_arg(int argc, char *argv[]);
+char			*get_next_arg(int argc, char *argv[]);
 
 /**
  * @brief returns 1 or 0 depending if char is a whitespace char
  * 
  */
-int		is_white_space(int a);
+int				is_white_space(int a);
 
+int				check_fork_odd(t_phil *phil);
+int				check_fork_even(t_phil *phil);
+int				wait_until(struct timeval *time);
+void			time_plus_mili(struct timeval *time, suseconds_t add);
+long			get_time_stamp(struct timeval *start_time);
+void			*lifecycle(void *param);
 
-int		check_fork_odd(t_phil *phil);
-int		check_fork_even(t_phil *phil);
-int		wait_until(struct timeval *time);
-void	time_plus_mili(struct timeval *time, suseconds_t add);
-long	get_time_stamp(struct timeval *start_time);
+void			eatmessage(char *str, t_phil *brain);
+
+//?-----philo_setup.c------?//
+
+void			philo_input(t_input *input, t_phil *brain, int count);
+
+//?-----time.c------?//
+
+void			milisleep(long long time);
+int				dinner_for_one(t_input *input);
+int				check_input(t_input *input);
+pthread_mutex_t	*get_mutex_array(size_t len);
+void			monitor(t_input *input);
 
 #endif

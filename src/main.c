@@ -6,58 +6,62 @@
 /*   By: lkrabbe <lkrabbe@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/24 22:39:00 by lkrabbe           #+#    #+#             */
-/*   Updated: 2022/11/06 21:14:32 by lkrabbe          ###   ########.fr       */
+/*   Updated: 2023/01/12 09:32:45 by lkrabbe          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include	"../include/philo.h"
-/**
- * need to  check the values for :
- *! number_of_philosophers
- *! time_to_die
- *! time_to_eat
- *! time_to_sleep
- *! number_of_times_each_philosopher_must_eat (optional argument)
- */
-
-void	print_strct(t_input *input)
-{
-	printf("%i\n", input->philosophers);
-	printf("%i\n", input->time_to_die);
-	printf("%i\n", input->time_to_eat);
-	printf("%i\n", input->time_to_sleep);
-	printf("%i\n", input->amount_to_eat);
-	fflush(stdout);
-}
 
 int	check_input(t_input *input)
 {
-	if (input->philosophers > 2000 || input->philosophers < 1)
+	if (input->philosophers > 200 || input->philosophers < 0)
 		return (-1);
-	if (input->time_to_die > 100000 || input->time_to_die < 1)
+	if (input->time_to_die < 60)
 		return (-1);
-	if (input->time_to_eat > 10000 || input->time_to_eat < 1)
+	if (input->time_to_eat < 60)
 		return (-1);
-	if (input->time_to_sleep > 10000 || input->time_to_sleep < 1)
+	if (input->time_to_sleep < 60)
 		return (-1);
-	if (input->amount_to_eat > 100 || input->amount_to_eat < 1)
-		return (0);
-	return (1);
+	return (0);
+}
+
+void	free_all(t_input *input)
+{
+	int	i;
+
+	i = 0;
+	free(input->death_check);
+	while (i < input->philosophers)
+	{
+		pthread_mutex_destroy(&input->fork_mutex[i]);
+		i++;
+	}
+	free(input->fork_mutex);
+	i = 0;
+	while (i < last_lock)
+	{
+		pthread_mutex_destroy(&input->mutex_arr[i]);
+		i++;
+	}
+	free(input->mutex_arr);
 }
 
 int	main(int argc, char *argv[])
 {
 	t_input	input;
 	int		death;
+	int		end;
 
+	end = 0;
+	input.end = &end;
 	death = FALSE;
 	input.deat_occurred = &death;
-	printf("\033[0;32m philo start for real\033[0m\n");
-	transform_args(&input, argc, argv);
-	if (check_input(&input) < 0)
-		printf("invalid input\n");
+	if (transform_args(&input, argc, argv) != 0)
+		return (0);
+	if (input.philosophers != 1)
+		setup(&input, 0);
 	else
-		create_philo(&input, 1);
-	printf("\033[0;32mphilo end\033[0m\n");
+		dinner_for_one(&input);
+	free_all(&input);
 	return (0);
 }
